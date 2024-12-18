@@ -12,6 +12,7 @@ const {
   getExpensesById,
   createExpenses,
   updateExpenses,
+  deleteExpense,
 } = require("./expenses/expenses.service.js");
 
 const app = express();
@@ -23,7 +24,7 @@ app.get("/expenses/:id", getExpensesById);
 
 app.post("/expenses", createExpenses);
 app.put("/expenses/:id",updateExpenses)
-
+app.delete("epenses/:id",deleteExpense)
 app.get("/", (req, res) => {
   res.send("hello world");
 });
