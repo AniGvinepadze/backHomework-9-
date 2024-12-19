@@ -16,24 +16,24 @@ const getAllExpenses = async (req, res) => {
   const expenses = await readFile();
 
   const startIndex = (page - 1) * take;
-  const pagExpenses = expenses.slice(startIndex, startIndex + Number(take));
-  const lastId = expenses[expenses.length - 1]?.id || 0;
+  const data = expenses.slice((page - 1) * take, page * take);
+  // const lastId = expenses[expenses.length - 1]?.id || 0;
 
-  const newExpenses = {
-    id: lastId + 1,
-    data: pagExpenses,
-    total: expenses.length,
-    page: Number(page),
-    take: Number(take),
-  };
+  // const newExpenses = {
+  //   id: lastId + 1,
+  //   data: pagExpenses,
+  //   total: expenses.length,
+  //   page: Number(page),
+  //   take: Number(take),
+  // };
 
-  return res.status(200).json(newExpenses);
+  return res.status(200).json({ data, page, take, total: expenses.length });
 };
 //! მოკლედ აქ მეუბნება რომ expenses not found
 //! expenses/3 ამ როუთზე
 
 const getExpensesById = async (req, res) => {
-  const { id } = Number(req.params.id);
+  const { id } = req.params;
   const expenses = await readFile();
 
   const expense = expenses.find((e) => e.id === Number(id));
@@ -68,33 +68,33 @@ const createExpenses = async (req, res) => {
   res.status(201).json(newExpense);
 };
 
-const updateExpenses = async () => {
+const updateExpenses = async (req, res) => {
   const { id } = req.params;
-  const updExpense = req.body;
+  const { fullName, eyeColor, email } = req.body;
+  // const updExpense = req.body;
   const expenses = await readFile();
   const findIndex = expenses.findIndex((e) => e.id === Number(id));
-  if (index === -1) {
+  if (findIndex === -1) {
     return res.status(404).json({ error: "Expense not found" });
   }
-  expenses[index].fullName = updExpense.fullName;
-  expenses[index].eyeColor = updExpense.eyeColor;
-  expenses[index].email = upd.email;
+  if (fullName) expenses[findIndex].fullName = fullName;
+  if (eyeColor) expenses[findIndex].eyeColor = eyeColor;
+  if (email) expenses[findIndex].email = email;
 
   await writeFile(expenses);
-  res.json(expenses[index]);
+  res.json({ message: "updated successfully", data: expenses[findIndex] });
 };
 const deleteExpense = async (req, res) => {
   const { id } = req.params;
   const expenses = await readFile();
   const findIndex = expenses.findIndex((e) => e.id === parseInt(id));
 
-  if (index === -1) {
+  if (findIndex === -1) {
     return res.status(404).json({ error: "Expense not found" });
   }
 
-  const deletedExpense = expenses.splice(index, 1);
+  const deletedExpense = expenses.splice(findIndex, 1);
   await writeFile(expenses);
-
   res.json(deletedExpense);
 };
 
@@ -103,5 +103,5 @@ module.exports = {
   getExpensesById,
   createExpenses,
   updateExpenses,
-  deleteExpense
+  deleteExpense,
 };

@@ -7,24 +7,17 @@
 
 const express = require("express");
 const expensesRouter = require("./expenses/expenses.route.js");
-const {
-  getAllExpenses,
-  getExpensesById,
-  createExpenses,
-  updateExpenses,
-  deleteExpense,
-} = require("./expenses/expenses.service.js");
 
 const app = express();
 app.use(express.json());
 app.use("/expenses", expensesRouter);
 
-app.get("/expenses", getAllExpenses);
-app.get("/expenses/:id", getExpensesById);
+// app.get("/expenses", getAllExpenses);
+// app.get("/expenses/:id", getExpensesById);
 
-app.post("/expenses", createExpenses);
-app.put("/expenses/:id",updateExpenses)
-app.delete("epenses/:id",deleteExpense)
+// app.post("/expenses", createExpenses);
+// app.put("/expenses/:id",updateExpenses)
+// app.delete("epenses/:id",deleteExpense)
 app.get("/", (req, res) => {
   res.send("hello world");
 });
