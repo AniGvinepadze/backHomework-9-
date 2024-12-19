@@ -98,10 +98,13 @@ const deleteExpense = async (req, res) => {
   res.json(deletedExpense);
 };
 
+
+
 module.exports = {
   getAllExpenses,
   getExpensesById,
   createExpenses,
   updateExpenses,
   deleteExpense,
+  
 };
