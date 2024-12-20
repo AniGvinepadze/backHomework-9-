@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/expensesList.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>this is expenses list page</h1>
+    <% data.forEach(expense => {%>
+    <div class="card">
+      <h2>Name: <%= expense .name %></h2>
+      <h2>Age: <%= expense .age %></h2>
+      <h2>Height: <%= expense .height %></h2>
+      <a href="/data/<%= expense.id %>">show more</a>
+      <button class="btn" id="<%=expense.id  %>" >Delete</button>
+    </div>
+    <%}) %>
+
+    <script src="/public/js//deleteExpense.js"></script>
+  </body>
+</html>

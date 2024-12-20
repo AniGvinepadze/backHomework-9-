@@ -98,6 +98,18 @@ const deleteExpense = async (req, res) => {
   res.json(deletedExpense);
 };
 
+const deleteExpenseById = async(req,res) =>{
+  const cardId = Number(req.params.id);
+  // const expenses = await readFile()
+  const index = data.findIndex((expense) => expense.id === cardId);
+  if (index === -1) {
+    return res.status(404).json({ message: "Expense not found" });
+  }
+  data.splice(index, 1); 
+  // await writeFile(expenses)
+  res.status(204).send(); 
+}
+
 
 
 module.exports = {
@@ -106,5 +118,6 @@ module.exports = {
   createExpenses,
   updateExpenses,
   deleteExpense,
-  
+  deleteExpenseById
+
 };
