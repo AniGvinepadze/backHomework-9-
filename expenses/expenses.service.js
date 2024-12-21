@@ -1,5 +1,6 @@
-const { Router } = require("express");
+
 const fs = require("fs/promises");
+
 const filePath = "expenses.json";
 
 const readFile = async () => {
@@ -84,31 +85,6 @@ const updateExpenses = async (req, res) => {
   await writeFile(expenses);
   res.json({ message: "updated successfully", data: expenses[findIndex] });
 };
-const deleteExpense = async (req, res) => {
-  const { id } = req.params;
-  const expenses = await readFile();
-  const findIndex = expenses.findIndex((e) => e.id === parseInt(id));
-
-  if (findIndex === -1) {
-    return res.status(404).json({ error: "Expense not found" });
-  }
-
-  const deletedExpense = expenses.splice(findIndex, 1);
-  await writeFile(expenses);
-  res.json(deletedExpense);
-};
-
-const deleteExpenseById = async(req,res) =>{
-  const cardId = Number(req.params.id);
-  // const expenses = await readFile()
-  const index = data.findIndex((expense) => expense.id === cardId);
-  if (index === -1) {
-    return res.status(404).json({ message: "Expense not found" });
-  }
-  data.splice(index, 1); 
-  // await writeFile(expenses)
-  res.status(204).send(); 
-}
 
 
 
@@ -117,7 +93,5 @@ module.exports = {
   getExpensesById,
   createExpenses,
   updateExpenses,
-  deleteExpense,
-  deleteExpenseById
 
 };

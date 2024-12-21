@@ -1,1 +1,5 @@
-[]
+[
+  { "id": 1, "name": "ani", "age": 18, "height": 1.9 },
+  { "id": 2, "name": "nini", "age": 23, "height": 1.75 },
+  { "id": 3, "name": "gio", "age": 21, "height": 1.85 }
+]
