@@ -10,44 +10,47 @@
 
 const express = require("express");
 const expensesRouter = require("./expenses/expenses.route.js");
-const randomMidlleaware = require("./middleaware/random.middleware.js");
-const fs = require("fs/promises");
+const {readFile,writeFile} = require("./utils/fs.js")
+// const randomMidlleaware = require("./middleaware/random.middleware.js");
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static('public'));
 app.set("view engine", "ejs");
 app.use("/expenses", expensesRouter);
 
 app.get("/", (req, res) => {
   res.send("hello world");
 });
-const readFile = async () => {
-  const data = await fs.readFile("expenses.json", "utf-8");
-  return JSON.parse(data);
-};
+
 app.get("/expenses-list", async (req, res) => {
-  // const list =  awiat getAllExpenses()
-  const expenses = await readFile();
+  const expenses = await readFile("expenses.json", true);
   res.render("pages/expensesList.ejs", { expenses });
 });
 
 app.get("/expenses-list/:id", async (req, res) => {
   console.log("shemovida>");
-  const expenses = await readFile();
-  const expense = expenses.find((e) => e.id === Number(req.params.id));
+  const id = Number(req.params.id);
+  const expenses = await readFile("expenses.json", true);
+  const expense = expenses.find((e) => e.id === id);
   if (!expense) return res.send("expense was not found");
-  res.render("pages/expencesDetails.ejs", { expenses: expense });
+  res.render("pages/expencesDetails.ejs", { expense });
 });
 
 app.get("/create", (req, res) => {
   res.render("pages/createExpenses.ejs");
 });
 
-app.get("/random", randomMidlleaware, (req, res) => {
-  res.status(200).send("request passed through random midlleware");
-});
-app.listen(3000, () => {
-  console.log("running on http://localhost:3000");
+app.get("/update/:id",async(req,res)=>{
+  const id = Number(req.params.id)
+  const expenses = await readFile('expenses.json', true)
+  const expense = expenses.find(el => el.id === id)
+    res.render('pages/updateExpense.ejs', {expense})
+})
+
+
+
+app.listen(3002, () => {
+  console.log("running on http://localhost:3002");
 });

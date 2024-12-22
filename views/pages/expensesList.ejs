@@ -7,9 +7,11 @@
     <title>Document</title>
   </head>
   <body>
+    <%-  include("../partials/header.ejs") %>
     <h1>this is expenses list page</h1>
     <% expenses.forEach(expense => {%>
     <div class="card">
+      <h2>Id: <%= expense.id %> </h2>
       <h2>Name: <%= expense .name %></h2>
       <h2>Age: <%= expense .age %></h2>
       <h2>Height: <%= expense .height %></h2>
@@ -21,9 +23,10 @@
       >
         Delete
       </button>
+      <a href="/update/<%= expense.id %>">update</a>
     </div>
     <%}) %>
-
+    <%-  include("../partials/footer.ejs") %>
     <script src="/js/deleteExpense.js"></script>
   </body>
 </html>

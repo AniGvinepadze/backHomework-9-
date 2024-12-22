@@ -1,6 +1,30 @@
 h1{
     color: red;
 }
+.main-header{
+    border: 2px solid gray;
+    padding: 10px;
+    color: black;
+    text-align: center;
+  
+}
+.main-header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .main-header nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .main-footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-top: 40px;
+  }
 .card{
     border: 2px solid black;
     border-radius:10px;
