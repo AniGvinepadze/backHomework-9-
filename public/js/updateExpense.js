@@ -1,6 +1,6 @@
 const form = document.querySelector("form");
 
-const id = location.pathname.split('/')[2];
+const id = location.pathname.split("/")[2];
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -19,12 +19,10 @@ form.addEventListener("submit", async (e) => {
     body: JSON.stringify(newExpense),
   });
 
-  if (res.status === 200) {
-    form.category.value = "";
-    form.price.value = "";
-    setTimeout(() => {
-      location.href = "/expense-list";
-    }, 1000);
-  }
+  //   if (res.status === 200) {
+  //     setTimeout(() => {
+  //       location.href = "/expenses-list";
+  //     }, 1000);
+  //   }
   console.log("Current Pathname:", location.pathname);
 });

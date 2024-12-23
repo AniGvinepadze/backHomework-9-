@@ -24,7 +24,7 @@ const createExpenses = async (req, res) => {
       .status(400)
       .json({ message: "name,age and height are required" });
   }
-  const expenses = await readFile("expenses.json",true);
+  const expenses = await readFile("expenses.json", true);
   const lastId = expenses[expenses.length - 1]?.id || 0;
   const newExpense = {
     id: lastId + 1,
@@ -34,28 +34,29 @@ const createExpenses = async (req, res) => {
   };
 
   expenses.push(newExpense);
-  await writeFile("expenses.json",expenses,true);
+  await writeFile("expenses.json", expenses, true);
   res.status(201).json(newExpense);
 };
 
-const deleteExpenseById = async (req,res) => {
-  const id = Number(req.params.id)
-    const expenses = await readFile('expenses.json', true)
-    const index = expenses.findIndex(el => el.id === id)
-    if(index === -1){
-        return res.status(404).json({message: 'expenses not found'})
-    }
-    const deletedExpense = expenses.splice(index, 1)
-    await writeFile('expenses.json', expenses, true)
-    res.json(deletedExpense)
-}
+const deleteExpenseById = async (req, res) => {
+  const id = Number(req.params.id);
+  const expenses = await readFile("expenses.json", true);
+  const index = expenses.findIndex((el) => el.id === id);
+  if (index === -1) {
+    return res.status(404).json({ message: "expenses not found" });
+  }
+  const deletedExpense = expenses.splice(index, 1);
+  await writeFile("expenses.json", expenses, true);
+  res.json(deletedExpense);
+};
 
 const updateExpenses = async (req, res) => {
-  const { id } = Number(req.params.id);
+  const id = Number(req.params.id);
   const { name, age, height } = req.body;
   // const updExpense = req.body;
-  const expenses = await readFile("expenses.json",true);
-  const findIndex = expenses.findIndex((e) => e.id === id);
+  const expenses = await readFile("expenses.json", true);
+  const findIndex = expenses.findIndex((e) => e.id === Number(id));
+  console.log(id, "id");
   if (findIndex === -1) {
     return res.status(404).json({ error: "Expense not found" });
   }
@@ -63,8 +64,8 @@ const updateExpenses = async (req, res) => {
   if (age) expenses[findIndex].age = age;
   if (height) expenses[findIndex].height = height;
 
-  await writeFile("expenses.json",expenses,true);
-  res.json(expenses[findIndex])
+  await writeFile("expenses.json", expenses, true);
+  res.json(expenses[findIndex]);
 };
 
 module.exports = {
