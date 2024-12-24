@@ -8,43 +8,52 @@
 // 4) create-expense როუტზე უნდა გამოაჩინოთ ფორმა საიდანაც შეძლებთ დაამატოთ ახალი იქსფენსები ისევე როგორც ლექციაზე ვქნით.
 // 5) შექმენით ჰედერის და ფუტერის კომპონენტი. ასევე გასტილეთ.
 
-const express = require("express");
+import express, { Express, Request, Response } from "express";
+
+
 const expensesRouter = require("./expenses/expenses.route.js");
 const {readFile,writeFile} = require("./utils/fs.js")
 // const randomMidlleaware = require("./middleaware/random.middleware.js");
 
-const app = express();
+const app:Express = express();
 
 app.use(express.json());
 app.use(express.static('public'));
 app.set("view engine", "ejs");
 app.use("/expenses", expensesRouter);
 
-app.get("/", (req, res) => {
+app.get("/", (req:Request, res:Response) => {
   res.send("hello world");
 });
 
-app.get("/expenses-list", async (req, res) => {
+app.get("/expenses-list", async (req:Request, res:Response) => {
   const expenses = await readFile("expenses.json", true);
   res.render("pages/expensesList.ejs", { expenses });
 });
+interface Expense {
+  id: number;
+  title: string; 
+  amount: number;
+  date: string;
+}
 
-app.get("/expenses-list/:id", async (req, res) => {
+//! აქ ვერ ვხვდები რატო აწითლებს
+app.get("/expenses-list/:id", async (req:Request, res:Response) => {
   console.log("shemovida>");
   const id = Number(req.params.id);
-  const expenses = await readFile("expenses.json", true);
+  const expenses:Expense[] = await readFile("expenses.json", true);
   const expense = expenses.find((e) => e.id === id);
   if (!expense) return res.send("expense was not found");
   res.render("pages/expencesDetails.ejs", { expense });
 });
 
-app.get("/create", (req, res) => {
+app.get("/create", (req:Request, res:Response) => {
   res.render("pages/createExpenses.ejs");
 });
 
-app.get("/update/:id",async(req,res)=>{
+app.get("/update/:id",async(req:Request,res:Response)=>{
   const id = Number(req.params.id)
-  const expenses = await readFile('expenses.json', true)
+  const expenses:Expense[] = await readFile('expenses.json', true)
   const expense = expenses.find(el => el.id === id)
     res.render('pages/updateExpense.ejs', {expense})
 })

@@ -1,12 +1,20 @@
-const fs = require("fs/promises");
+import { promises as fs } from "fs";
 
-const readFile = async (filePath, isParsed) => {
+type Tuple = [string, unknown];
+const readFile = async (
+  filePath: string,
+  isParsed: boolean
+): Promise<Tuple | null> => {
   if (!filePath) return null;
   const readData = await fs.readFile(filePath, "utf-8");
   return isParsed ? JSON.parse(readData) : readData;
 };
 
-const writeFile = async (filePath, data, isStringify) => {
+const writeFile = async (
+  filePath: string,
+  data: unknown,
+  isStringify: boolean
+) => {
   if (!filePath || !data) return null;
   await fs.writeFile(filePath, isStringify ? JSON.stringify(data) : data);
   console.log("writed successfully");

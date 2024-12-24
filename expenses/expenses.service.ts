@@ -1,13 +1,18 @@
 const { readFile, writeFile } = require("../utils/fs");
+interface Expense {
+  name: string;
+  age: number;
+  height: number;
+}
 
-const getAllExpenses = async (req, res) => {
-  const expenses = await readFile("expenses.json", true);
+const getAllExpenses = async (req:Request, res:Response):Promise<void> => {
+  const expenses:Expense[] = await readFile("expenses.json", true);
   res.json(expenses);
 };
 
-const getExpensesById = async (req, res) => {
+const getExpensesById = async (req:Request, res:Response) => {
   const { id } = Number(req.params.id);
-  const expenses = await readFile("expenses.json", true);
+  const expenses:Expense[] = await readFile("expenses.json", true);
 
   const expense = expenses.find((e) => e.id === id);
 
@@ -17,14 +22,14 @@ const getExpensesById = async (req, res) => {
   res.json(expense);
 };
 
-const createExpenses = async (req, res) => {
-  const { name, age, height } = req.body;
+const createExpenses = async (req:Request, res:Response) => {
+  const { name:string, age:number, height:number } = req.body;
   if (!name || !age || !height) {
     return res
       .status(400)
       .json({ message: "name,age and height are required" });
   }
-  const expenses = await readFile("expenses.json", true);
+  const expenses :Expense[]= await readFile("expenses.json", true);
   const lastId = expenses[expenses.length - 1]?.id || 0;
   const newExpense = {
     id: lastId + 1,
@@ -50,7 +55,7 @@ const deleteExpenseById = async (req, res) => {
   res.json(deletedExpense);
 };
 
-const updateExpenses = async (req, res) => {
+const updateExpenses = async (req, res)=> {
   const id = Number(req.params.id);
   const { name, age, height } = req.body;
   // const updExpense = req.body;
